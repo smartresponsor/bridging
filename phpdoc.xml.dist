@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<phpdocumentor>
+  <title>Billing Code Reference</title>
+  <paths>
+    <output>docs/generated/phpdoc</output>
+  </paths>
+  <version number="local">
+    <api>
+      <source dsn="src" />
+      <ignore hidden="true">tests</ignore>
+      <ignore hidden="true">var</ignore>
+      <ignore hidden="true">vendor</ignore>
+    </api>
+  </version>
+  <transformations>
+    <template name="clean" />
+  </transformations>
+</phpdocumentor>

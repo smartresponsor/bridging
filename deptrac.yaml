@@ -1,0 +1,117 @@
+deptrac:
+  paths:
+    - ./src
+
+  exclude_files:
+    - '#.*Test.*#'
+    - '#.*Kernel.php#'
+
+  layers:
+    - name: Controller
+      collectors:
+        - type: classNameRegex
+          value: '#^App\Billing\\Controller\\.*#'
+
+    - name: Http
+      collectors:
+        - type: classNameRegex
+          value: '#^App\Billing\\Http\\.*#'
+
+    - name: Command
+      collectors:
+        - type: classNameRegex
+          value: '#^App\Billing\\Command\\.*#'
+
+    - name: Fixture
+      collectors:
+        - type: classNameRegex
+          value: '#^App\Billing\\Fixture\\.*#'
+
+    - name: ServiceInterface
+      collectors:
+        - type: classNameRegex
+          value: '#^App\Billing\\ServiceInterface\\.*#'
+
+    - name: Service
+      collectors:
+        - type: classNameRegex
+          value: '#^App\Billing\\Service\\.*#'
+
+    - name: GatewayInterface
+      collectors:
+        - type: classNameRegex
+          value: '#^App\Billing\\GatewayInterface\\.*#'
+
+    - name: Infrastructure
+      collectors:
+        - type: classNameRegex
+          value: '#^App\Billing\\Infrastructure\\.*#'
+
+    - name: SymfonyConsole
+      collectors:
+        - type: classNameRegex
+          value: '#^Symfony\\Component\\Console\\.*#'
+
+    - name: SymfonyDependencyInjection
+      collectors:
+        - type: classNameRegex
+          value: '#^Symfony\\Component\\DependencyInjection\\.*#'
+
+    - name: SymfonyHttpFoundation
+      collectors:
+        - type: classNameRegex
+          value: '#^Symfony\\Component\\HttpFoundation\\.*#'
+
+    - name: SymfonyRouting
+      collectors:
+        - type: classNameRegex
+          value: '#^Symfony\\Component\\Routing\\.*#'
+
+    - name: OpenApi
+      collectors:
+        - type: classNameRegex
+          value: '#^OpenApi\\Attributes\\.*#'
+
+    - name: Faker
+      collectors:
+        - type: classNameRegex
+          value: '#^Faker\\.*#'
+
+  ruleset:
+    Controller:
+      - ServiceInterface
+      - SymfonyHttpFoundation
+
+    Http:
+      - ServiceInterface
+      - Service
+      - SymfonyHttpFoundation
+      - SymfonyRouting
+      - OpenApi
+
+    Command:
+      - Fixture
+      - Infrastructure
+      - SymfonyConsole
+      - SymfonyDependencyInjection
+
+    Fixture:
+      - Faker
+
+    Service:
+      - ServiceInterface
+      - GatewayInterface
+
+    Infrastructure:
+      - GatewayInterface
+
+    ServiceInterface:
+      - Service
+
+    GatewayInterface: ~
+    SymfonyConsole: ~
+    SymfonyDependencyInjection: ~
+    SymfonyHttpFoundation: ~
+    SymfonyRouting: ~
+    OpenApi: ~
+    Faker: ~
