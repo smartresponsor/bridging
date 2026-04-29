@@ -7,11 +7,17 @@ namespace App\Bridging\Service\MessagingInterfacing;
 use App\Bridging\Bridge\Contract\BridgeInterface;
 use App\Bridging\Bridge\Contract\BridgeTarget;
 use App\Value\Notification\MessageNotificationInboxValue;
+use App\Bridging\Bridge\Support\InterfacingScreenPayloadNormalizer;
 use Symfony\Component\DependencyInjection\Attribute\AutoconfigureTag;
 
 #[AutoconfigureTag('bridging.bridge')]
 final readonly class MessageNotificationInboxToInterfacingScreenBridge implements BridgeInterface
 {
+    public function __construct(
+        private InterfacingScreenPayloadNormalizer $payloadNormalizer,
+    ) {
+    }
+
     public function supports(object $payload, string $target): bool
     {
         return $payload instanceof MessageNotificationInboxValue && BridgeTarget::MESSAGING_INTERFACING_NOTIFICATION_INBOX_SCREEN === $target;
@@ -26,8 +32,6 @@ final readonly class MessageNotificationInboxToInterfacingScreenBridge implement
             throw new \InvalidArgumentException('Unsupported bridge payload for Messaging → Interfacing notification inbox bridge.');
         }
 
-        return $payload->toInterfacingScreenPayload() + [
-            'bridgeContext' => $context,
-        ];
+        return $this->payloadNormalizer->normalize($payload->toInterfacingScreenPayload(), $context);
     }
 }

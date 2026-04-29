@@ -28,3 +28,8 @@ A bridge translates one component-owned result/context into another component-ow
 
 ## Activation model
 Controllers or component responders call contracts they own. Concrete bridge implementations live here and call target-component contracts such as Interfacing renderers.
+
+## Room law
+- `src/Service/CrudingInterfacing/` is the only room for generic CRUD -> Interfacing bridges.
+- `src/Service/*Interfacing/` rooms are for component-specific custom routes/screens only.
+- Legacy fallback rooms under `src/Service/Interfacing/` are forbidden.

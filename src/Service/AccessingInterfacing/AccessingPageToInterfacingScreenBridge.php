@@ -7,6 +7,7 @@ namespace App\Bridging\Service\AccessingInterfacing;
 use App\Accessing\Dto\PageView;
 use App\Bridging\Bridge\Contract\BridgeInterface;
 use App\Bridging\Bridge\Contract\BridgeTarget;
+use App\Bridging\Bridge\Support\InterfacingScreenPayloadNormalizer;
 use Symfony\Component\DependencyInjection\Attribute\AutoconfigureTag;
 
 #[AutoconfigureTag('bridging.bridge')]
@@ -14,6 +15,7 @@ final readonly class AccessingPageToInterfacingScreenBridge implements BridgeInt
 {
     public function __construct(
         private AccessingInterfacingScreenSpecProvider $screenSpecProvider,
+        private InterfacingScreenPayloadNormalizer $payloadNormalizer,
     ) {
     }
 
@@ -31,6 +33,6 @@ final readonly class AccessingPageToInterfacingScreenBridge implements BridgeInt
             throw new \InvalidArgumentException('Unsupported bridge payload for Accessing → Interfacing screen bridge.');
         }
 
-        return $this->screenSpecProvider->resolve($payload, $context);
+        return $this->payloadNormalizer->normalize($this->screenSpecProvider->resolve($payload, $context), $context);
     }
 }

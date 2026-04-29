@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Bridging\Tests\Unit;
 
+use App\Bridging\Bridge\Support\InterfacingScreenPayloadNormalizer;
 use App\Bridging\Bridge\Contract\BridgeTarget;
 use App\Bridging\Service\MessagingInterfacing\MessageInterfacingScreenBridge;
 use App\Value\Export\MessageExportJobValue;
@@ -13,7 +14,7 @@ final class MessageInterfacingScreenBridgeTest extends TestCase
 {
     public function testBridgeConvertsMessagingContractsIntoInterfacingScreenPayload(): void
     {
-        $bridge = new MessageInterfacingScreenBridge();
+        $bridge = new MessageInterfacingScreenBridge(new InterfacingScreenPayloadNormalizer());
         $payload = new MessageExportJobValue('job-1', 'PENDING');
 
         self::assertTrue($bridge->supports($payload, BridgeTarget::MESSAGING_INTERFACING_SCREEN));

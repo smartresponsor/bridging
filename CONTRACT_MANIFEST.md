@@ -16,3 +16,9 @@ Do not require every source component to implement a single universal Interfacin
 
 ## Interfacing rule
 Bridges target Interfacing-owned renderer/view contracts; they must not own Interfacing internals beyond the public renderer contract.
+
+## Interfacing payload canon
+- Bridges targeting Interfacing must return a normalized screen payload.
+- Generic CRUD payloads belong only to `CrudingInterfacing`.
+- Component-specific bridges may adapt custom routes/screens, but must not redefine generic CRUD flow.
+- Interfacing-facing payloads must define at least `id` and `kind`; `bridgeContext` is attached by Bridging.

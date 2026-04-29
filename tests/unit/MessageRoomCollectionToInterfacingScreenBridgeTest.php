@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Bridging\Tests\Unit;
 
+use App\Bridging\Bridge\Support\InterfacingScreenPayloadNormalizer;
 use App\Bridging\Bridge\Contract\BridgeTarget;
 use App\Bridging\Service\MessagingInterfacing\MessageRoomCollectionToInterfacingScreenBridge;
 use App\Value\Room\MessageRoomCollectionValue;
@@ -13,7 +14,7 @@ final class MessageRoomCollectionToInterfacingScreenBridgeTest extends TestCase
 {
     public function testBridgeConvertsRoomCollectionIntoInterfacingScreenPayload(): void
     {
-        $bridge = new MessageRoomCollectionToInterfacingScreenBridge();
+        $bridge = new MessageRoomCollectionToInterfacingScreenBridge(new InterfacingScreenPayloadNormalizer());
         $rooms = new MessageRoomCollectionValue([
             ['id' => 'room-1', 'title' => 'General'],
         ], 1, 50, 0, 'tenant-1');

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Bridging\Tests\Unit;
 
+use App\Bridging\Bridge\Support\InterfacingScreenPayloadNormalizer;
 use App\Bridging\Bridge\Contract\BridgeTarget;
 use App\Bridging\Service\MessagingInterfacing\MessageSearchResultsToInterfacingScreenBridge;
 use App\Value\Search\MessageSearchResultsValue;
@@ -13,7 +14,7 @@ final class MessageSearchResultsToInterfacingScreenBridgeTest extends TestCase
 {
     public function testBridgeConvertsSearchResultsIntoInterfacingScreenPayload(): void
     {
-        $bridge = new MessageSearchResultsToInterfacingScreenBridge();
+        $bridge = new MessageSearchResultsToInterfacingScreenBridge(new InterfacingScreenPayloadNormalizer());
         $results = new MessageSearchResultsValue('hello', null, null, 'user-1', 20, 0, [
             ['messageId' => 'msg-1', 'snippet' => 'Hello world'],
         ]);

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Bridging\Tests\Unit;
 
+use App\Bridging\Bridge\Support\InterfacingScreenPayloadNormalizer;
 use App\Bridging\Bridge\Contract\BridgeTarget;
 use App\Bridging\Service\MessagingInterfacing\MessageNotificationInboxToInterfacingScreenBridge;
 use App\Value\Notification\MessageNotificationInboxValue;
@@ -13,7 +14,7 @@ final class MessageNotificationInboxToInterfacingScreenBridgeTest extends TestCa
 {
     public function testBridgeConvertsInboxValueIntoInterfacingScreenPayload(): void
     {
-        $bridge = new MessageNotificationInboxToInterfacingScreenBridge();
+        $bridge = new MessageNotificationInboxToInterfacingScreenBridge(new InterfacingScreenPayloadNormalizer());
         $inbox = new MessageNotificationInboxValue('user-1', [
             ['id' => 'notif-1', 'title' => 'Welcome'],
         ], 25);

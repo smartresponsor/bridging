@@ -7,11 +7,17 @@ namespace App\Bridging\Service\MessagingInterfacing;
 use App\Bridging\Bridge\Contract\BridgeInterface;
 use App\Bridging\Bridge\Contract\BridgeTarget;
 use App\Value\Thread\MessageThreadDigestValue;
+use App\Bridging\Bridge\Support\InterfacingScreenPayloadNormalizer;
 use Symfony\Component\DependencyInjection\Attribute\AutoconfigureTag;
 
 #[AutoconfigureTag('bridging.bridge')]
 final readonly class MessageDigestToInterfacingScreenBridge implements BridgeInterface
 {
+    public function __construct(
+        private InterfacingScreenPayloadNormalizer $payloadNormalizer,
+    ) {
+    }
+
     public function supports(object $payload, string $target): bool
     {
         return $payload instanceof MessageThreadDigestValue && BridgeTarget::MESSAGING_INTERFACING_DIGEST_SCREEN === $target;
@@ -26,7 +32,7 @@ final readonly class MessageDigestToInterfacingScreenBridge implements BridgeInt
             throw new \InvalidArgumentException('Unsupported bridge payload for Messaging → Interfacing digest bridge.');
         }
 
-        return [
+        return $this->payloadNormalizer->normalize([
             'id' => 'message.digest',
             'title' => $payload->title,
             'subtitle' => $payload->summary,
@@ -35,6 +41,6 @@ final readonly class MessageDigestToInterfacingScreenBridge implements BridgeInt
             'items' => $payload->items,
             'itemCount' => count($payload->items),
             'bridgeContext' => $context,
-        ];
+        ], $context);
     }
 }
