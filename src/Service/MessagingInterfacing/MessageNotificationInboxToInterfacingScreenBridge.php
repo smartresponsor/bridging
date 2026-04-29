@@ -1,0 +1,33 @@
+<?php
+
+declare(strict_types=1);
+
+namespace App\Bridging\Service\MessagingInterfacing;
+
+use App\Bridging\Bridge\Contract\BridgeInterface;
+use App\Bridging\Bridge\Contract\BridgeTarget;
+use App\Value\Notification\MessageNotificationInboxValue;
+use Symfony\Component\DependencyInjection\Attribute\AutoconfigureTag;
+
+#[AutoconfigureTag('bridging.bridge')]
+final readonly class MessageNotificationInboxToInterfacingScreenBridge implements BridgeInterface
+{
+    public function supports(object $payload, string $target): bool
+    {
+        return $payload instanceof MessageNotificationInboxValue && BridgeTarget::MESSAGING_INTERFACING_NOTIFICATION_INBOX_SCREEN === $target;
+    }
+
+    /**
+     * @return array<string, mixed>
+     */
+    public function bridge(object $payload, string $target, array $context = []): array
+    {
+        if (!$payload instanceof MessageNotificationInboxValue || !$this->supports($payload, $target)) {
+            throw new \InvalidArgumentException('Unsupported bridge payload for Messaging → Interfacing notification inbox bridge.');
+        }
+
+        return $payload->toInterfacingScreenPayload() + [
+            'bridgeContext' => $context,
+        ];
+    }
+}

@@ -1,0 +1,270 @@
+{% extends 'interfacing/base.html.twig' %}
+
+{% set title = screen.title ~ ' | Accessing' %}
+{% set shell = {
+  query: '',
+  itemTotal: 1,
+  activeId: screen.id,
+  group: [
+    {
+      title: 'Accessing',
+      item: [
+        { id: screen.id, title: screen.title, url: app.request.uri }
+      ]
+    }
+  ]
+} %}
+
+{% block body %}
+  <style>
+    .bridge-stack { display:flex; flex-direction:column; gap:16px; }
+    .bridge-card { background:#fff; border:1px solid #e7e7e7; border-radius:16px; padding:20px; box-shadow:0 8px 24px rgba(15,23,42,.05); }
+    .bridge-title { margin:8px 0 0 0; font-size:28px; line-height:1.2; }
+    .bridge-eyebrow { color:#1677ff; text-transform:uppercase; letter-spacing:.05em; font-size:12px; font-weight:700; }
+    .bridge-subtitle { margin:12px 0 0 0; color:#5c5c5c; max-width:780px; }
+    .bridge-actions { display:flex; flex-wrap:wrap; gap:10px; margin-top:16px; }
+    .bridge-button, .bridge-button button { display:inline-flex; align-items:center; justify-content:center; gap:8px; min-height:42px; padding:10px 14px; border-radius:10px; border:1px solid #d9d9d9; background:#fff; color:#1f1f1f; font-weight:600; text-decoration:none; cursor:pointer; }
+    .bridge-button-primary, .bridge-button-primary button { background:#1677ff; border-color:#1677ff; color:#fff; }
+    .bridge-button-danger, .bridge-button-danger button { border-color:#ffccc7; color:#cf1322; }
+    .bridge-form-shell form { display:flex; flex-direction:column; gap:14px; }
+    .bridge-grid { display:grid; grid-template-columns:repeat(2, minmax(0,1fr)); gap:16px; }
+    .bridge-metrics { display:grid; grid-template-columns:repeat(4, minmax(0,1fr)); gap:12px; }
+    .bridge-metric { background:#fafafa; border:1px solid #efefef; border-radius:14px; padding:14px; }
+    .bridge-metric-label { color:#666; font-size:12px; text-transform:uppercase; letter-spacing:.04em; }
+    .bridge-metric-value { margin-top:6px; font-size:18px; font-weight:700; }
+    .bridge-table { width:100%; border-collapse:collapse; }
+    .bridge-table th, .bridge-table td { text-align:left; padding:10px 12px; border-bottom:1px solid #f0f0f0; vertical-align:top; }
+    .bridge-note { color:#666; font-size:14px; }
+    .bridge-section-title { margin:0 0 12px 0; font-size:18px; }
+    .bridge-list { margin:0; padding-left:18px; }
+    .bridge-flash { border-radius:12px; padding:12px 14px; margin-bottom:12px; }
+    .bridge-flash-success { background:#f6ffed; color:#389e0d; }
+    .bridge-flash-error { background:#fff1f0; color:#cf1322; }
+    .bridge-flash-warning { background:#fffbe6; color:#ad6800; }
+    .bridge-flash-info { background:#e6f4ff; color:#1677ff; }
+    @media (max-width: 920px) {
+      .bridge-grid, .bridge-metrics { grid-template-columns:1fr; }
+    }
+  </style>
+
+  <div class="bridge-stack">
+    {% for label, messages in app.flashes %}
+      {% for message in messages %}
+        <div class="bridge-flash bridge-flash-{{ label in ['error', 'danger'] ? 'error' : (label in ['success'] ? 'success' : (label in ['warning'] ? 'warning' : 'info')) }}">{{ message }}</div>
+      {% endfor %}
+    {% endfor %}
+
+    <section class="bridge-card">
+      <div class="bridge-eyebrow">{{ screen.eyebrow }}</div>
+      <h1 class="bridge-title">{{ screen.title }}</h1>
+      <p class="bridge-subtitle">{{ screen.subtitle }}</p>
+
+      {% if screen.primaryActions is not empty or screen.secondaryActions is not empty %}
+        <div class="bridge-actions">
+          {% for action in screen.primaryActions %}
+            <a class="bridge-button bridge-button-{{ action.variant|default('primary') }}" href="{{ path(action.route, action.route_params|default({})) }}">{{ action.label }}</a>
+          {% endfor %}
+          {% for action in screen.secondaryActions %}
+            {% if action.method|default('get') == 'post' %}
+              <form method="post" action="{{ path(action.route, action.route_params|default({})) }}" style="margin:0;">
+                <button class="bridge-button{% if action.variant|default('secondary') == 'danger' %} bridge-button-danger{% endif %}" type="submit">{{ action.label }}</button>
+              </form>
+            {% else %}
+              <a class="bridge-button{% if action.variant|default('secondary') == 'danger' %} bridge-button-danger{% endif %}" href="{{ path(action.route, action.route_params|default({})) }}">{{ action.label }}</a>
+            {% endif %}
+          {% endfor %}
+        </div>
+      {% endif %}
+    </section>
+
+    {% set context = screen.context %}
+    {% if screen.kind == 'form' %}
+      <section class="bridge-card bridge-form-shell">
+        {% set formView = attribute(context, screen.formVariable) %}
+        {{ form_start(formView) }}
+          {{ form_widget(formView) }}
+          <div class="bridge-actions">
+            <button class="bridge-button bridge-button-primary" type="submit">Continue</button>
+          </div>
+        {{ form_end(formView) }}
+      </section>
+    {% elseif screen.kind == 'info' %}
+      <section class="bridge-card">
+        <p class="bridge-note">If the account exists, the recovery/reset flow has been prepared. In the current owner-oriented setup, preview material may be exposed through flash messages for manual testing.</p>
+      </section>
+    {% elseif screen.kind == 'overview' %}
+      {% set account = context.account %}
+      {% set events = context.events|default([]) %}
+      <section class="bridge-card">
+        <div class="bridge-metrics">
+          <div class="bridge-metric"><div class="bridge-metric-label">Email</div><div class="bridge-metric-value">{{ account.emailVerified ? 'Verified' : 'Pending' }}</div></div>
+          <div class="bridge-metric"><div class="bridge-metric-label">Phone</div><div class="bridge-metric-value">{{ account.phoneVerified ? 'Verified' : 'Pending' }}</div></div>
+          <div class="bridge-metric"><div class="bridge-metric-label">Second factor</div><div class="bridge-metric-value">{{ account.secondFactor and account.secondFactor.enabled ? 'Enabled' : 'Disabled' }}</div></div>
+          <div class="bridge-metric"><div class="bridge-metric-label">Lock state</div><div class="bridge-metric-value">{{ account.locked ? 'Locked' : 'Open' }}</div></div>
+        </div>
+      </section>
+      <section class="bridge-grid">
+        <article class="bridge-card">
+          <h2 class="bridge-section-title">Lifecycle status</h2>
+          <table class="bridge-table">
+            <tbody>
+              <tr><th>Display name</th><td>{{ account.displayName }}</td></tr>
+              <tr><th>Registered</th><td>{{ account.registeredAt|date('Y-m-d H:i') }}</td></tr>
+              <tr><th>Last sign in</th><td>{{ account.lastSignInAt ? account.lastSignInAt|date('Y-m-d H:i') : 'Never' }}</td></tr>
+              <tr><th>Phone number</th><td>{{ account.phoneNumber ?: 'Not provided' }}</td></tr>
+              <tr><th>Recovery codes</th><td>{{ account.recoveryCodes|length }}</td></tr>
+              <tr><th>Tracked sessions</th><td>{{ account.accountSessions|length }}</td></tr>
+            </tbody>
+          </table>
+        </article>
+        <article class="bridge-card">
+          <h2 class="bridge-section-title">Recent security events</h2>
+          <ul class="bridge-list">
+            {% for event in events %}
+              <li>
+                <strong>{{ event.eventType.value }}</strong><br>
+                <span class="bridge-note">{{ event.occurredAt|date('Y-m-d H:i') }}{% if event.ipAddress %} from {{ event.ipAddress }}{% endif %}</span>
+              </li>
+            {% else %}
+              <li class="bridge-note">No security events recorded for this account.</li>
+            {% endfor %}
+          </ul>
+        </article>
+      </section>
+    {% elseif screen.kind == 'second_factor' %}
+      {% set account = context.account %}
+      <section class="bridge-grid">
+        <article class="bridge-card bridge-form-shell">
+          {% set formView = attribute(context, screen.formVariable) %}
+          {{ form_start(formView) }}
+            {{ form_widget(formView) }}
+            <div class="bridge-actions">
+              <button class="bridge-button bridge-button-primary" type="submit">Save second factor settings</button>
+            </div>
+          {{ form_end(formView) }}
+        </article>
+        <article class="bridge-card">
+          <h2 class="bridge-section-title">Current posture</h2>
+          <table class="bridge-table">
+            <tbody>
+              <tr><th>Account</th><td>{{ account.emailAddress }}</td></tr>
+              <tr><th>Second factor enabled</th><td>{{ context.enabled ? 'Yes' : 'No' }}</td></tr>
+              <tr><th>Recovery codes visible</th><td>{{ context.showRecoveryCodes ? 'Yes' : 'No' }}</td></tr>
+              <tr><th>Enrollment issued</th><td>{{ context.enrollment ? 'Yes' : 'No' }}</td></tr>
+            </tbody>
+          </table>
+          {% if context.showRecoveryCodes and account.recoveryCodes is not empty %}
+            <h3 class="bridge-section-title" style="margin-top:16px; font-size:16px;">Recovery codes</h3>
+            <ul class="bridge-list">
+              {% for code in account.recoveryCodes %}
+                <li>{{ code.code }}</li>
+              {% endfor %}
+            </ul>
+          {% endif %}
+        </article>
+      </section>
+    {% elseif screen.kind == 'sessions' %}
+      {% set account = context.account %}
+      <section class="bridge-card">
+        <h2 class="bridge-section-title">Tracked sessions for {{ account.emailAddress }}</h2>
+        <table class="bridge-table">
+          <thead>
+            <tr><th>Issued</th><th>Last seen</th><th>IP</th><th>Status</th></tr>
+          </thead>
+          <tbody>
+            {% for session in account.accountSessions %}
+              <tr>
+                <td>{{ session.issuedAt|date('Y-m-d H:i') }}</td>
+                <td>{{ session.lastSeenAt|date('Y-m-d H:i') }}</td>
+                <td>{{ session.ipAddress ?: '—' }}</td>
+                <td>{{ session.active ? 'Active' : 'Invalidated' }}</td>
+              </tr>
+            {% else %}
+              <tr><td colspan="4" class="bridge-note">No tracked sessions found.</td></tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </section>
+    {% elseif screen.kind == 'security_events' or screen.kind == 'operator_security_events' %}
+      {% set events = context.events|default([]) %}
+      <section class="bridge-card">
+        <table class="bridge-table">
+          <thead>
+            <tr>
+              {% if screen.kind == 'operator_security_events' %}<th>Account</th>{% endif %}
+              <th>Event</th><th>Severity</th><th>Occurred</th><th>IP</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for event in events %}
+              <tr>
+                {% if screen.kind == 'operator_security_events' %}<td>{{ event.account ? event.account.emailAddress : 'Unknown' }}</td>{% endif %}
+                <td>{{ event.eventType.value ?? event.eventType }}</td>
+                <td>{{ event.severity.value ?? '—' }}</td>
+                <td>{{ event.occurredAt|date('Y-m-d H:i') }}</td>
+                <td>{{ event.ipAddress ?: '—' }}</td>
+              </tr>
+            {% else %}
+              <tr><td colspan="{{ screen.kind == 'operator_security_events' ? 5 : 4 }}" class="bridge-note">No security events recorded.</td></tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </section>
+    {% elseif screen.kind == 'operator_accounts' %}
+      {% set accounts = context.accounts|default([]) %}
+      <section class="bridge-card">
+        <table class="bridge-table">
+          <thead>
+            <tr><th>Email</th><th>Verification</th><th>Second factor</th><th>Last sign in</th></tr>
+          </thead>
+          <tbody>
+            {% for account in accounts %}
+              <tr>
+                <td><a href="{{ path('accessing_operator_account_detail', {id: account.id}) }}">{{ account.emailAddress }}</a></td>
+                <td>{{ account.emailVerified ? 'Email ok' : 'Email pending' }} / {{ account.phoneVerified ? 'Phone ok' : 'Phone pending' }}</td>
+                <td>{{ account.secondFactor and account.secondFactor.enabled ? 'Enabled' : 'Disabled' }}</td>
+                <td>{{ account.lastSignInAt ? account.lastSignInAt|date('Y-m-d H:i') : 'Never' }}</td>
+              </tr>
+            {% else %}
+              <tr><td colspan="4" class="bridge-note">No accounts available.</td></tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </section>
+    {% elseif screen.kind == 'operator_account_detail' %}
+      {% set account = context.account %}
+      {% set events = context.events|default([]) %}
+      <section class="bridge-grid">
+        <article class="bridge-card">
+          <h2 class="bridge-section-title">Account posture</h2>
+          <table class="bridge-table">
+            <tbody>
+              <tr><th>Email</th><td>{{ account.emailAddress }}</td></tr>
+              <tr><th>Display name</th><td>{{ account.displayName }}</td></tr>
+              <tr><th>Email verified</th><td>{{ account.emailVerified ? 'Yes' : 'No' }}</td></tr>
+              <tr><th>Phone verified</th><td>{{ account.phoneVerified ? 'Yes' : 'No' }}</td></tr>
+              <tr><th>Second factor</th><td>{{ account.secondFactor and account.secondFactor.enabled ? 'Enabled' : 'Disabled' }}</td></tr>
+            </tbody>
+          </table>
+        </article>
+        <article class="bridge-card">
+          <h2 class="bridge-section-title">Recent security events</h2>
+          <ul class="bridge-list">
+            {% for event in events %}
+              <li>
+                <strong>{{ event.eventType.value }}</strong><br>
+                <span class="bridge-note">{{ event.occurredAt|date('Y-m-d H:i') }} · {{ event.severity.value }}</span>
+              </li>
+            {% else %}
+              <li class="bridge-note">No security events for this account.</li>
+            {% endfor %}
+          </ul>
+        </article>
+      </section>
+    {% else %}
+      <section class="bridge-card">
+        <p class="bridge-note">No bridge rendering branch is configured for this screen yet.</p>
+      </section>
+    {% endif %}
+  </div>
+{% endblock %}

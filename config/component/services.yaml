@@ -1,0 +1,12 @@
+services:
+    _defaults:
+        autowire: true
+        autoconfigure: true
+
+    App\Bridging\:
+        resource: '../../src/'
+        exclude:
+            - '../../src/DependencyInjection/'
+    App\Bridging\Bridge\BridgeRegistry:
+        arguments:
+            $bridges: !tagged_iterator bridging.bridge

@@ -1,0 +1,5 @@
+services:
+    App\Bridging\Service\AccessingInterfacing\AccessingInterfacingPageResponder: ~
+
+    App\Accessing\ServiceInterface\Rendering\PageResponderInterface:
+        alias: App\Bridging\Service\AccessingInterfacing\AccessingInterfacingPageResponder
