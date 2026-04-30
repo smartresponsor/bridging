@@ -25,7 +25,7 @@ final readonly class AccessingInterfacingPageResponder implements PageResponderI
         return $this->renderer->render(
             self::TEMPLATE,
             [
-                'screen' => $this->screenBridge->bridge($pageView, BridgeTarget::ACCESSING_INTERFACING_SCREEN),
+                'screen' => $this->screenBridge->bridge($pageView, BridgeTarget::SCREEN_ACCESSING),
                 'pageView' => $pageView,
             ],
             $pageView->statusCode,

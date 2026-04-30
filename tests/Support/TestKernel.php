@@ -7,7 +7,7 @@ namespace App\Bridging\Tests\Support;
 use App\Bridging\BridgingBundle;
 use Symfony\Bundle\FrameworkBundle\FrameworkBundle;
 use Symfony\Component\Config\Loader\LoaderInterface;
-use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
+use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\HttpKernel\Kernel;
 use Symfony\Component\Routing\Loader\Configurator\RoutingConfigurator;
 
@@ -23,8 +23,8 @@ final class TestKernel extends Kernel
 
     public function registerContainerConfiguration(LoaderInterface $loader): void
     {
-        $loader->load(static function (ContainerConfigurator $container): void {
-            $container->extension('framework', [
+        $loader->load(static function (ContainerBuilder $container): void {
+            $container->loadFromExtension('framework', [
                 'secret' => 'test',
                 'test' => true,
                 'http_method_override' => false,

@@ -1,0 +1,13 @@
+services:
+    _defaults:
+        autowire: true
+        autoconfigure: true
+
+    App\Ordering\Service\OrderSummaryProvider: ~
+    App\Ordering\ServiceInterface\OrderSummaryProviderInterface:
+        alias: App\Ordering\Service\OrderSummaryProvider
+
+    App\Bridging\Service\OrderingInterfacing\OrderingOrderSummaryQueryBridge: ~
+
+    App\Interfacing\ServiceInterface\Interfacing\Query\OrderSummaryQueryServiceInterface:
+        alias: App\Bridging\Service\OrderingInterfacing\OrderingOrderSummaryQueryBridge

@@ -10,7 +10,7 @@ use App\Value\Notification\MessageNotificationInboxValue;
 use App\Bridging\Bridge\Support\InterfacingScreenPayloadNormalizer;
 use Symfony\Component\DependencyInjection\Attribute\AutoconfigureTag;
 
-#[AutoconfigureTag('bridging.bridge')]
+#[AutoconfigureTag('bridging.dispatch_bridge')]
 final readonly class MessageNotificationInboxToInterfacingScreenBridge implements BridgeInterface
 {
     public function __construct(
@@ -20,7 +20,7 @@ final readonly class MessageNotificationInboxToInterfacingScreenBridge implement
 
     public function supports(object $payload, string $target): bool
     {
-        return $payload instanceof MessageNotificationInboxValue && BridgeTarget::MESSAGING_INTERFACING_NOTIFICATION_INBOX_SCREEN === $target;
+        return $payload instanceof MessageNotificationInboxValue && BridgeTarget::SCREEN_MESSAGE_NOTIFICATION_INBOX === $target;
     }
 
     /**

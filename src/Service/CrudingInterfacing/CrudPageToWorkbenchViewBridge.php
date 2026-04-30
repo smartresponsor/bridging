@@ -14,14 +14,14 @@ use App\Interfacing\Contract\Crud\CrudTableColumn;
 use App\Interfacing\Contract\Crud\CrudWorkbenchView;
 use Symfony\Component\DependencyInjection\Attribute\AutoconfigureTag;
 
-#[AutoconfigureTag('bridging.bridge')]
+#[AutoconfigureTag('bridging.dispatch_bridge')]
 final class CrudPageToWorkbenchViewBridge implements CrudPageToWorkbenchViewBridgeInterface
 {
     private const SUPPORTED_PAYLOAD = 'App\\Cruding\\Dto\\Crud\\CrudPageDefinition';
 
     public function supports(object $payload, string $target): bool
     {
-        return self::SUPPORTED_PAYLOAD === $payload::class && BridgeTarget::CRUDING_INTERFACING_WORKBENCH === $target;
+        return self::SUPPORTED_PAYLOAD === $payload::class && BridgeTarget::WORKBENCH_CRUD === $target;
     }
 
     public function bridge(object $payload, string $target, array $context = []): mixed

@@ -21,6 +21,14 @@ final class BridgeRegistry
      */
     public function all(): array
     {
-        return array_values(is_array($this->bridges) ? $this->bridges : iterator_to_array($this->bridges, false));
+        $result = [];
+        $bridges = is_array($this->bridges) ? $this->bridges : iterator_to_array($this->bridges, false);
+        foreach ($bridges as $bridge) {
+            if ($bridge instanceof BridgeInterface) {
+                $result[] = $bridge;
+            }
+        }
+
+        return $result;
     }
 }

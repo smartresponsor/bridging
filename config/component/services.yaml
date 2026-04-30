@@ -9,4 +9,4 @@ services:
             - '../../src/DependencyInjection/'
     App\Bridging\Bridge\BridgeRegistry:
         arguments:
-            $bridges: !tagged_iterator bridging.bridge
+            $bridges: !tagged_iterator bridging.dispatch_bridge

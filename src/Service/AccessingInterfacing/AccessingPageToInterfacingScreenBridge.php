@@ -10,7 +10,7 @@ use App\Bridging\Bridge\Contract\BridgeTarget;
 use App\Bridging\Bridge\Support\InterfacingScreenPayloadNormalizer;
 use Symfony\Component\DependencyInjection\Attribute\AutoconfigureTag;
 
-#[AutoconfigureTag('bridging.bridge')]
+#[AutoconfigureTag('bridging.dispatch_bridge')]
 final readonly class AccessingPageToInterfacingScreenBridge implements BridgeInterface
 {
     public function __construct(
@@ -21,7 +21,7 @@ final readonly class AccessingPageToInterfacingScreenBridge implements BridgeInt
 
     public function supports(object $payload, string $target): bool
     {
-        return $payload instanceof PageView && BridgeTarget::ACCESSING_INTERFACING_SCREEN === $target;
+        return $payload instanceof PageView && BridgeTarget::SCREEN_ACCESSING === $target;
     }
 
     /**

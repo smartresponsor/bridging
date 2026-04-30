@@ -1,0 +1,9 @@
+services:
+    _defaults:
+        autowire: true
+        autoconfigure: true
+
+    App\Bridging\Service\MessagingInterfacing\MessageInterfacingScreenBridge: ~
+
+    App\Bridging\ServiceInterface\MessagingInterfacing\MessageInterfacingScreenBridgeInterface:
+        alias: App\Bridging\Service\MessagingInterfacing\MessageInterfacingScreenBridge

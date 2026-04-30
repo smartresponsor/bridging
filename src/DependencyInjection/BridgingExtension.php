@@ -28,10 +28,18 @@ final class BridgingExtension extends Extension implements PrependExtensionInter
         $configuration = new Configuration();
         $config = $this->processConfiguration($configuration, $configs);
 
+        $orderingContract = dirname(__DIR__).'/../../Ordering/src/ServiceInterface/OrderSummaryProviderInterface.php';
+        if (is_file($orderingContract)) {
+            require_once $orderingContract;
+        }
+
         $container->setParameter('bridge.defaults.strict_resolution', $config['defaults']['strict_resolution']);
 
         $loader = new YamlFileLoader($container, new FileLocator(__DIR__.'/../../config/component'));
         $loader->load('services.yaml');
+        foreach (glob(__DIR__.'/../../config/component/services_*_interfacing.yaml') ?: [] as $path) {
+            $loader->load(basename($path));
+        }
     }
 
     public function getAlias(): string

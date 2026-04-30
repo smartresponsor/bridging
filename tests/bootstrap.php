@@ -16,3 +16,8 @@ foreach ($autoloadCandidates as $autoload) {
         require $autoload;
     }
 }
+
+$orderingInterface = dirname($root).'/Ordering/src/ServiceInterface/OrderSummaryProviderInterface.php';
+if (is_file($orderingInterface)) {
+    require $orderingInterface;
+}

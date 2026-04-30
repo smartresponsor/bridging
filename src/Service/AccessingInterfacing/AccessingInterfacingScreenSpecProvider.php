@@ -243,7 +243,6 @@ final class AccessingInterfacingScreenSpecProvider
             'primaryActions' => $spec['primary_actions'] ?? [],
             'secondaryActions' => $spec['secondary_actions'] ?? [],
             'context' => $pageView->parameters,
-            'bridgeContext' => $context,
         ];
     }
 }

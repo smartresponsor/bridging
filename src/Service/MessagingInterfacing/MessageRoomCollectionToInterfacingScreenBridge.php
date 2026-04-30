@@ -10,7 +10,7 @@ use App\Value\Room\MessageRoomCollectionValue;
 use App\Bridging\Bridge\Support\InterfacingScreenPayloadNormalizer;
 use Symfony\Component\DependencyInjection\Attribute\AutoconfigureTag;
 
-#[AutoconfigureTag('bridging.bridge')]
+#[AutoconfigureTag('bridging.dispatch_bridge')]
 final readonly class MessageRoomCollectionToInterfacingScreenBridge implements BridgeInterface
 {
     public function __construct(
@@ -20,7 +20,7 @@ final readonly class MessageRoomCollectionToInterfacingScreenBridge implements B
 
     public function supports(object $payload, string $target): bool
     {
-        return $payload instanceof MessageRoomCollectionValue && BridgeTarget::MESSAGING_INTERFACING_ROOM_COLLECTION_SCREEN === $target;
+        return $payload instanceof MessageRoomCollectionValue && BridgeTarget::SCREEN_MESSAGE_ROOM_COLLECTION === $target;
     }
 
     /**

@@ -10,7 +10,7 @@ use App\Value\Thread\MessageThreadDigestValue;
 use App\Bridging\Bridge\Support\InterfacingScreenPayloadNormalizer;
 use Symfony\Component\DependencyInjection\Attribute\AutoconfigureTag;
 
-#[AutoconfigureTag('bridging.bridge')]
+#[AutoconfigureTag('bridging.dispatch_bridge')]
 final readonly class MessageDigestToInterfacingScreenBridge implements BridgeInterface
 {
     public function __construct(
@@ -20,7 +20,7 @@ final readonly class MessageDigestToInterfacingScreenBridge implements BridgeInt
 
     public function supports(object $payload, string $target): bool
     {
-        return $payload instanceof MessageThreadDigestValue && BridgeTarget::MESSAGING_INTERFACING_DIGEST_SCREEN === $target;
+        return $payload instanceof MessageThreadDigestValue && BridgeTarget::SCREEN_MESSAGE_DIGEST === $target;
     }
 
     /**
@@ -40,7 +40,6 @@ final readonly class MessageDigestToInterfacingScreenBridge implements BridgeInt
             'eyebrow' => 'Messaging · Digest',
             'items' => $payload->items,
             'itemCount' => count($payload->items),
-            'bridgeContext' => $context,
         ], $context);
     }
 }

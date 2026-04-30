@@ -1,0 +1,9 @@
+services:
+    _defaults:
+        autowire: true
+        autoconfigure: true
+
+    App\Bridging\Service\CrudingInterfacing\CrudPageToWorkbenchViewBridge: ~
+
+    App\Bridging\ServiceInterface\CrudingInterfacing\CrudPageToWorkbenchViewBridgeInterface:
+        alias: App\Bridging\Service\CrudingInterfacing\CrudPageToWorkbenchViewBridge

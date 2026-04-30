@@ -6,13 +6,21 @@ namespace App\Bridging\Bridge\Contract;
 
 final class BridgeTarget
 {
-    public const CRUDING_INTERFACING_WORKBENCH = 'interfacing.crud.workbench';
-    public const ACCESSING_INTERFACING_SCREEN = 'interfacing.screen.accessing';
-    public const MESSAGING_INTERFACING_SCREEN = 'interfacing.screen.message';
-    public const MESSAGING_INTERFACING_DIGEST_SCREEN = 'interfacing.screen.messaging.digest';
-    public const MESSAGING_INTERFACING_NOTIFICATION_INBOX_SCREEN = 'interfacing.screen.messaging.notification.inbox';
-    public const MESSAGING_INTERFACING_SEARCH_RESULTS_SCREEN = 'interfacing.screen.messaging.search.results';
-    public const MESSAGING_INTERFACING_ROOM_COLLECTION_SCREEN = 'interfacing.screen.messaging.room.collection';
+    public const WORKBENCH_CRUD = 'interfacing.crud.workbench';
+    public const SCREEN_ACCESSING = 'interfacing.screen.accessing';
+    public const SCREEN_MESSAGE = 'interfacing.screen.message';
+    public const SCREEN_MESSAGE_DIGEST = 'interfacing.screen.message.digest';
+    public const SCREEN_MESSAGE_NOTIFICATION_INBOX = 'interfacing.screen.message.notification.inbox';
+    public const SCREEN_MESSAGE_SEARCH_RESULTS = 'interfacing.screen.message.search.results';
+    public const SCREEN_MESSAGE_ROOM_COLLECTION = 'interfacing.screen.message.room.collection';
+
+    public const CRUDING_INTERFACING_WORKBENCH = self::WORKBENCH_CRUD;
+    public const ACCESSING_INTERFACING_SCREEN = self::SCREEN_ACCESSING;
+    public const MESSAGING_INTERFACING_SCREEN = self::SCREEN_MESSAGE;
+    public const MESSAGING_INTERFACING_DIGEST_SCREEN = self::SCREEN_MESSAGE_DIGEST;
+    public const MESSAGING_INTERFACING_NOTIFICATION_INBOX_SCREEN = self::SCREEN_MESSAGE_NOTIFICATION_INBOX;
+    public const MESSAGING_INTERFACING_SEARCH_RESULTS_SCREEN = self::SCREEN_MESSAGE_SEARCH_RESULTS;
+    public const MESSAGING_INTERFACING_ROOM_COLLECTION_SCREEN = self::SCREEN_MESSAGE_ROOM_COLLECTION;
 
     private function __construct()
     {
