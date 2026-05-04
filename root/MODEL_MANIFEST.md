@@ -8,3 +8,6 @@ Bridges must normalize toward limited Interfacing-facing payload shapes. Generic
 
 ## Drift guard
 When a component needs custom pages, add a dedicated `*Interfacing` bridge room. Do not duplicate generic CRUD operations there.
+
+## Currencing model handoff
+Currencing emits `CurrencyTemplateContext` as a read model for templates. Bridging maps that read model into a generic Interfacing screen payload and does not retain currency business state.

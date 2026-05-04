@@ -14,6 +14,7 @@ final class BridgeTarget
     public const SCREEN_MESSAGE_SEARCH_RESULTS = 'interfacing.screen.message.search.results';
     public const SCREEN_MESSAGE_ROOM_COLLECTION = 'interfacing.screen.message.room.collection';
     public const SCREEN_LOCALIZING_LOCALE_SELECTOR = 'interfacing.screen.localizing.locale.selector';
+    public const SCREEN_CURRENCING_TEMPLATE_CONTEXT = 'interfacing.screen.currencing.template.context';
 
     public const CRUDING_INTERFACING_WORKBENCH = self::WORKBENCH_CRUD;
     public const ACCESSING_INTERFACING_SCREEN = self::SCREEN_ACCESSING;
@@ -23,6 +24,8 @@ final class BridgeTarget
     public const MESSAGING_INTERFACING_SEARCH_RESULTS_SCREEN = self::SCREEN_MESSAGE_SEARCH_RESULTS;
     public const MESSAGING_INTERFACING_ROOM_COLLECTION_SCREEN = self::SCREEN_MESSAGE_ROOM_COLLECTION;
     public const LOCALIZING_INTERFACING_SCREEN = self::SCREEN_LOCALIZING_LOCALE_SELECTOR;
+    public const CURRENCING_INTERFACING_TEMPLATE_CONTEXT_SCREEN = self::SCREEN_CURRENCING_TEMPLATE_CONTEXT;
+    public const CURRENCING_INTERFACING_SCREEN = self::SCREEN_CURRENCING_TEMPLATE_CONTEXT;
 
     private function __construct()
     {

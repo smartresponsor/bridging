@@ -22,3 +22,8 @@ The normalizer also canonicalizes optional keys such as:
 - `facts`
 - `meta`
 - `bridgeContext`
+
+## Currencing bridge contract
+- `BridgeTarget::SCREEN_CURRENCING_TEMPLATE_CONTEXT` targets the Currencing selector/template-context Interfacing screen.
+- `CurrencyTemplateContextToInterfacingScreenBridgeInterface` is the Bridge-side outbound adapter contract.
+- Input is `App\Dto\Currency\CurrencyTemplateContext`; output is the normalized Interfacing screen payload array.

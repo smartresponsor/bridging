@@ -11,3 +11,7 @@ Bridging adapts component-native results into canonical cross-component integrat
 
 ## Boundary law
 Bridging may adapt, normalize, and route presentation payloads. It must not become a second renderer, a second CRUD component, or a storage for arbitrary host logic.
+
+## Currencing → Interfacing room
+- `CurrencingInterfacing/` adapts Currencing template-context read models into Interfacing-facing selector/screen payloads.
+- Currencing remains the owner of currency metadata and selector context; Interfacing remains the renderer/UI owner.
