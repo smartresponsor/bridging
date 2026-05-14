@@ -15,10 +15,19 @@ final class BridgingExtension extends Extension implements PrependExtensionInter
     public function prepend(ContainerBuilder $container): void
     {
         if ($container->hasExtension('twig')) {
+            $paths = [];
+            $bridgeTemplateDir = realpath(__DIR__ . '/../../templates');
+            if (false !== $bridgeTemplateDir) {
+                $paths[$bridgeTemplateDir] = null;
+            }
+
+            $interfacingTemplateDir = realpath(__DIR__ . '/../../../Interfacing/template');
+            if (false !== $interfacingTemplateDir) {
+                $paths[$interfacingTemplateDir] = null;
+            }
+
             $container->prependExtensionConfig('twig', [
-                'paths' => [
-                    realpath(__DIR__.'/../../templates') => null,
-                ],
+                'paths' => $paths,
             ]);
         }
     }
@@ -28,16 +37,16 @@ final class BridgingExtension extends Extension implements PrependExtensionInter
         $configuration = new Configuration();
         $config = $this->processConfiguration($configuration, $configs);
 
-        $orderingContract = dirname(__DIR__).'/../../Ordering/src/ServiceInterface/OrderSummaryProviderInterface.php';
+        $orderingContract = dirname(__DIR__) . '/../../Ordering/src/ServiceInterface/OrderSummaryProviderInterface.php';
         if (is_file($orderingContract)) {
             require_once $orderingContract;
         }
 
         $container->setParameter('bridge.defaults.strict_resolution', $config['defaults']['strict_resolution']);
 
-        $loader = new YamlFileLoader($container, new FileLocator(__DIR__.'/../../config/component'));
+        $loader = new YamlFileLoader($container, new FileLocator(__DIR__ . '/../../config/component'));
         $loader->load('services.yaml');
-        foreach (glob(__DIR__.'/../../config/component/services_*_interfacing.yaml') ?: [] as $path) {
+        foreach (glob(__DIR__ . '/../../config/component/services_*_interfacing.yaml') ?: [] as $path) {
             $loader->load(basename($path));
         }
     }

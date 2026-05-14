@@ -1,1 +1,84 @@
-# Bridging currently exposes no HTTP routes.
+bridging_interfacing_catalog_index:
+    path: /catalog/
+    controller: App\Bridging\Controller\Interfacing\BridgeVisibleProviderSurfaceController::show
+    defaults:
+        prefix: catalog
+        resourcePath: catalog
+    methods: [GET]
+
+bridging_interfacing_catalog_resource:
+    path: /catalog/{resourcePath}
+    controller: App\Bridging\Controller\Interfacing\BridgeVisibleProviderSurfaceController::show
+    defaults:
+        prefix: catalog
+    requirements:
+        resourcePath: '.+'
+    methods: [GET]
+
+bridging_interfacing_crud_index:
+    path: /crud/
+    controller: App\Bridging\Controller\Interfacing\BridgeVisibleProviderSurfaceController::show
+    defaults:
+        prefix: crud
+        resourcePath: crud
+    methods: [GET]
+
+bridging_interfacing_crud_resource:
+    path: /crud/{resourcePath}
+    controller: App\Bridging\Controller\Interfacing\BridgeVisibleProviderSurfaceController::show
+    defaults:
+        prefix: crud
+    requirements:
+        resourcePath: '.+'
+    methods: [GET]
+
+bridging_interfacing_cruding_index:
+    path: /cruding/
+    controller: App\Bridging\Controller\Interfacing\BridgeVisibleProviderSurfaceController::show
+    defaults:
+        prefix: cruding
+        resourcePath: cruding
+    methods: [GET]
+
+bridging_interfacing_cruding_resource:
+    path: /cruding/{resourcePath}
+    controller: App\Bridging\Controller\Interfacing\BridgeVisibleProviderSurfaceController::show
+    defaults:
+        prefix: cruding
+    requirements:
+        resourcePath: '.+'
+    methods: [GET]
+
+bridging_interfacing_vendor_index:
+    path: /vendor/
+    controller: App\Bridging\Controller\Interfacing\BridgeVisibleProviderSurfaceController::show
+    defaults:
+        prefix: vendor
+        resourcePath: vendor
+    methods: [GET]
+
+bridging_interfacing_vendor_resource:
+    path: /vendor/{resourcePath}
+    controller: App\Bridging\Controller\Interfacing\BridgeVisibleProviderSurfaceController::show
+    defaults:
+        prefix: vendor
+    requirements:
+        resourcePath: '.+'
+    methods: [GET]
+
+bridging_interfacing_vendoring_index:
+    path: /vendoring/
+    controller: App\Bridging\Controller\Interfacing\BridgeVisibleProviderSurfaceController::show
+    defaults:
+        prefix: vendoring
+        resourcePath: vendoring
+    methods: [GET]
+
+bridging_interfacing_vendoring_resource:
+    path: /vendoring/{resourcePath}
+    controller: App\Bridging\Controller\Interfacing\BridgeVisibleProviderSurfaceController::show
+    defaults:
+        prefix: vendoring
+    requirements:
+        resourcePath: '.+'
+    methods: [GET]

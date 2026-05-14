@@ -1,0 +1,12 @@
+services:
+    _defaults:
+        autowire: true
+        autoconfigure: true
+
+    App\Bridging\Service\AppHostInterfacing\AppDashboardSurfaceToProviderSurfaceBridge: ~
+    App\Bridging\Service\AppHostInterfacing\AppDashboardSurfaceResponder: ~
+
+    App\Bridging\ServiceInterface\AppHostInterfacing\AppDashboardSurfaceToProviderSurfaceBridgeInterface:
+        alias: App\Bridging\Service\AppHostInterfacing\AppDashboardSurfaceToProviderSurfaceBridge
+    App\Bridging\ServiceInterface\AppHostInterfacing\AppDashboardSurfaceResponderInterface:
+        alias: App\Bridging\Service\AppHostInterfacing\AppDashboardSurfaceResponder

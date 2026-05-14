@@ -1,0 +1,9 @@
+{% extends 'interfacing/admin/body/provider_page.html.twig' %}
+
+{% set adminProviderPageTitle = adminProviderPageTitle|default(title|default(workbench.title|default('Commerce Control Center'))) %}
+{% set adminProviderResourceName = adminProviderResourceName|default(workbench.routeContext.resourcePath|default('app-dashboard')) %}
+{% set adminProviderResourceLabel = adminProviderResourceLabel|default(workbench.routeContext.resourceLabel|default(adminProviderPageTitle)) %}
+{% set adminProviderOperation = adminProviderOperation|default(workbench.routeContext.operation|default('overview')) %}
+{% set adminProviderSurface = adminProviderSurface|default(workbench.routeContext.surface|default('dashboard')) %}
+{% set adminProviderDefaultView = adminProviderDefaultView|default('table') %}
+{% set adminProviderViewModes = adminProviderViewModes|default(['table', 'cards']) %}

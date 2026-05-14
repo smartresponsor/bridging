@@ -15,3 +15,9 @@ Bridging may adapt, normalize, and route presentation payloads. It must not beco
 ## Currencing → Interfacing room
 - `CurrencingInterfacing/` adapts Currencing template-context read models into Interfacing-facing selector/screen payloads.
 - Currencing remains the owner of currency metadata and selector context; Interfacing remains the renderer/UI owner.
+
+## Subscripting → Interfacing room
+- `SubscriptingInterfacing/` adapts Subscripting presentation payloads into Interfacing-facing screen payloads.
+- Subscripting remains the owner of subscription lifecycle/read models.
+- Bridging owns shape adaptation.
+- Interfacing remains the renderer/UI owner.

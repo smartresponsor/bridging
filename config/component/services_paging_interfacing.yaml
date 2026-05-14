@@ -1,0 +1,9 @@
+services:
+    _defaults:
+        autowire: true
+        autoconfigure: true
+
+    App\Bridging\Service\PagingInterfacing\PageBridgePayloadToInterfacingScreenBridge: ~
+
+    App\Bridging\ServiceInterface\PagingInterfacing\PageBridgePayloadToInterfacingScreenBridgeInterface:
+        alias: App\Bridging\Service\PagingInterfacing\PageBridgePayloadToInterfacingScreenBridge

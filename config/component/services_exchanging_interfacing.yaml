@@ -1,0 +1,9 @@
+services:
+    _defaults:
+        autowire: true
+        autoconfigure: true
+
+    App\Bridging\Service\ExchangingInterfacing\ExchangeTemplateContextToInterfacingScreenBridge: ~
+
+    App\Bridging\ServiceInterface\ExchangingInterfacing\ExchangeTemplateContextToInterfacingScreenBridgeInterface:
+        alias: App\Bridging\Service\ExchangingInterfacing\ExchangeTemplateContextToInterfacingScreenBridge

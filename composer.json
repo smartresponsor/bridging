@@ -6,7 +6,8 @@
   "require": {
     "php": ">=8.4",
     "symfony/framework-bundle": "^8.0",
-    "symfony/yaml": "^8.0"
+    "symfony/yaml": "^8.0",
+    "smart-responsor/objecting": "*@dev"
   },
   "require-dev": {
     "friendsofphp/php-cs-fixer": "^3.88",
@@ -36,5 +37,14 @@
     }
   },
   "minimum-stability": "dev",
-  "prefer-stable": true
+  "prefer-stable": true,
+  "repositories": [
+    {
+      "type": "path",
+      "url": "../Objecting",
+      "options": {
+        "symlink": true
+      }
+    }
+  ]
 }
